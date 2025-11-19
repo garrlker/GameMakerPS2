@@ -1,0 +1,13 @@
+
+Thumbs.db
+*.user
+*.suo
+.travis.yml
+.vs
+.git
+node_modules
+tests
+
+*.sln
+*.njsproj
+sample.js

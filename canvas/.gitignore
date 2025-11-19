@@ -1,0 +1,10 @@
+.DS_Store
+Thumbs.db
+*.user
+*.suo
+.vs
+node_modules
+
+
+*.elf
+athena.ini
