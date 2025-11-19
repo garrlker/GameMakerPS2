@@ -3,7 +3,7 @@
 // Global
 // **********************************************************************************************
 var Pi = 3.14159265,
-	CACHE_SINGLE_IMAGE = true,
+	CACHE_SINGLE_IMAGE = false,	// TODO: Caching images
 	DEBUG_MODE = false,
 	AUDIO_ON = true,
 
@@ -755,13 +755,18 @@ var g_CanvasName = 'canvas';
 // #############################################################################################
 function    InitAboyneGlobals()
 {
-    DetectBrowser();
+	debug("InitAboyneGlobals");
+    // DetectBrowser();
 
-    var pAudioTest = new Audio();
-    pAudioTest.controls = false;
-    g_canPlayMp3 = !!pAudioTest.canPlayType && "" != pAudioTest.canPlayType('audio/mpeg');
-    g_canPlayOgg = !!pAudioTest.canPlayType && "" != pAudioTest.canPlayType('audio/ogg; codecs="vorbis"');
-    pAudioTest = null;
+		// TODO: Implement audio
+    // var pAudioTest = new Audio();
+    // pAudioTest.controls = false;
+    // g_canPlayMp3 = !!pAudioTest.canPlayType && "" != pAudioTest.canPlayType('audio/mpeg');
+    // g_canPlayOgg = !!pAudioTest.canPlayType && "" != pAudioTest.canPlayType('audio/ogg; codecs="vorbis"');
+    // pAudioTest = null;
+
+		g_canPlayMp3 = false;
+		g_canPlayOgg = false;
 
     if (g_canPlayMp3) debug("Browser CAN play MP3");
     if (g_canPlayOgg) debug("Browser CAN play OGG");
@@ -954,8 +959,12 @@ function    GetHTMLRGB(_col)
 // ###### #######################################################################################
 function    GetHTMLRGBA(_col, _alpha)
 {
-    var col="rgba("+((_col>>16)&0xff).toString()+","+((_col>>8)&0xff).toString()+","+((_col>>0)&0xff).toString()+","+((_alpha*255.0)&0xff).toString()+")";
-    return col;
+	debug("GetHTMLRGBA Input ", _col, _alpha)
+	// var col="rgba("+((_col>>16)&0xff).toString()+","+((_col>>8)&0xff).toString()+","+((_col>>0)&0xff).toString()+","+((_alpha*255.0)&0xff).toString()+")";
+	var col="rgba("+((_col>>16)&0xff).toString()+","+((_col>>8)&0xff).toString()+","+((_col>>0)&0xff).toString()+","+((_alpha*255.0)&0xff).toString()+")";
+    // return col;
+		debug("GetHTMLRGBA Output", _col>>16 | _col>>8 | _col>>0 | _alpha * 255)
+		return _col>>16 | _col>>8 | _col>>0 | _alpha * 255;
 }
 
 
@@ -1340,6 +1349,8 @@ function DetectBrowser()
 // #############################################################################################
 function supports_html5_storage() 
 {
+	g_SupportsLocalStorage = false;
+	return;
 	try
 	{
 		if ('localStorage' in window && window['localStorage'] !== null)

@@ -26,7 +26,7 @@ var lastPrint = Date.now();
 ///           </summary>
 // #############################################################################################
 var print = function (text) {
-	//return;
+	return; // Ignore debug for now
 	var newline = String.fromCharCode(0x0a);
 	text = text.replace('<b>', '').replace('</b>', '');
 	var element = document.getElementById('debug_console');
@@ -61,14 +61,14 @@ var print = function (text) {
 ///          	Console out debug text
 ///          </summary>
 // #############################################################################################
-function debug()
-{
-  var index;
+// function debug()
+// {
+//   var index;
   
-  for (index = 0; index < arguments.length; ++index) {
-      print( arguments[index] );
-  }
-}
+//   for (index = 0; index < arguments.length; ++index) {
+//       print( arguments[index] );
+//   }
+// }
 
 // #############################################################################################
 /// Function:<summary>
