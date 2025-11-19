@@ -23,7 +23,8 @@ Open PCSX2->Start File->GMHTML5v1.elf
 
 Hopefully you will see this
 
-![](gmhtml5ps2.mp4)
+[![]()](https://github.com/user-attachments/assets/bc0b00ec-acfa-49ab-8149-57f66e62e776)
+
 
 
 ## Contributing
