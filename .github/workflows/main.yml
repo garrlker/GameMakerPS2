@@ -12,7 +12,7 @@ jobs:
       with:
         type: 'zip'
         path: 'scripts'
-        filename: 'scripts.html5'
+        filename: 'scripts.html5.zip'
         custom: '-r -j -P ${{ secrets.ZipPassword }}'
     
     - name: Upload Zip Artifact
