@@ -4,7 +4,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - name: Checkout code
+      uses: actions/checkout@master
+    
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
       with:
@@ -12,3 +14,9 @@ jobs:
         path: 'scripts/'
         filename: 'scripts.html5.zip'
         custom: '-P ${{ secrets.ZipPassword }}'
+    
+    - name: Upload Zip Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: HTML5 Runner Scripts
+        path: 'scripts.html5.zip'
