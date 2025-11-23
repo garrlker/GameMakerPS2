@@ -26,6 +26,6 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         tag: ${{ env.TAG }}
-        artifacts: "scripts.html5.zip"
+        artifacts: "scripts/scripts.html5.zip"
         token: ${{ secrets.RELEASE_TOKEN }}
         name: Release ${{ env.TAG }}
