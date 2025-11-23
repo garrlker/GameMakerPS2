@@ -18,5 +18,5 @@ jobs:
     - name: Upload Zip Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: HTML5 Runner Scripts
+        name: 'scripts.html5.zip'
         path: 'scripts.html5.zip'
