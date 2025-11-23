@@ -15,10 +15,17 @@ jobs:
         path: '.'
         filename: 'scripts.html5.zip'
         custom: '-r -P ${{ secrets.ZipPassword }}'
+    
+    - name: Compute release tag
+      id: tag
+      run: |
+        TAG=$(cat VERSION)-${GITHUB_SHA::7}
+        echo "TAG=$TAG" >> $GITHUB_ENV
+    
     - name: Create Github Release
       uses: ncipollo/release-action@v1
       with:
-        tag: $(cat VERSION)-${{ github.sha }}
+        tag: ${{ env.TAG }}
         artifacts: "scripts.html5.zip"
         token: ${{ secrets.RELEASE_TOKEN }}
-        name: Release $(cat VERSION)-${{ github.sha }}
+        name: Release ${{ env.TAG }}
