@@ -823,7 +823,7 @@ yyRoom.prototype.DrawInstancesParticles = function (_rect) {
 // #############################################################################################
 yyRoom.prototype.DrawInstancesParticlesTiles = function (_rect) {
 
-		// Draw the tiles
+    // Draw the tiles
     for (var index in this.m_Tiles)
 	{
 		var pTile = this.m_Tiles[index];
@@ -895,14 +895,15 @@ yyRoom.prototype.DrawInstancesParticlesTiles = function (_rect) {
 ///			 </returns>
 // #############################################################################################
 yyRoom.prototype.DrawTheRoom = function (_rect) {
+
 	g_roomExtents = _rect;
 
 	if (this.m_showcolor)
 	{
-		Graphics_ClearScreen(convertGMColorToRGBA(g_pBuiltIn.background_color));
-	}else{
-		Screen.clear();
+		Graphics_ClearScreen(g_pBuiltIn.background_color);
 	}
+
+
 
 	// Draw the backgrounds
 	for (var i = 0; i < g_pBackgroundManager.background.length; i++)
@@ -976,8 +977,6 @@ yyRoom.prototype.DrawTheRoom = function (_rect) {
 			}
 		}
 	}
-
-	Screen.flip();
 };
 
 

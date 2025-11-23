@@ -88,7 +88,6 @@ for(var iStr in g_StringTableName)
 // #############################################################################################
 function CreateDebugConsole()
 {
-	return;
     var c = document.getElementById(g_CanvasName);
     var y = document.createElement('textarea');
     y.setAttribute("id","debug_console");
@@ -241,9 +240,8 @@ function ParseURL(_url) {
 // #############################################################################################
 function GameMaker_Init() 
 {
-	debug("GameMaker_Init ", !document.getElementById, !document.createElement);
     if (!document.getElementById || !document.createElement) return;
-    // ParseURL( window.location );
+    ParseURL( window.location );
 
 
 	canvas = document.getElementById(g_CanvasName);
@@ -269,7 +267,7 @@ function GameMaker_Init()
 
 
     //document.body.appendChild( canvas );
-	// document.body.oncontextmenu = function () { return false; };  
+	document.body.oncontextmenu = function () { return false; };  
     
     CreateDebugConsole();
     //hideshow(document.getElementById('debug_console'));
@@ -278,13 +276,14 @@ function GameMaker_Init()
     g_OriginalWidth  = canvas.width;
     g_OriginalHeight = canvas.height;
 
+    
     // get width, height and canvas bounds...
     DISPLAY_WIDTH = g_OriginalWidth;
     DISPLAY_HEIGHT = g_OriginalHeight;
 
 
     CalcCanvasLocation();
-    // bindTouchEvents();
+    bindTouchEvents();
 
     //requestAnimationFrame
 	//setInterval(GameMaker_Tick, 1000 / (60));
@@ -298,6 +297,7 @@ function GameMaker_Init()
 	g_pGMFile = JSON_game;
 	LoadGame_PreLoadAssets(g_pGMFile);
 	g_StartUpState = 0;
+
 
 	/*var JSFile = LoadTextFile_Block("test.js");
 	eval(JSFile);
@@ -338,10 +338,7 @@ function GameMaker_Init()
 	file_text_close(f);
 	*/
 
-	debug("GameMaker_Init - animate");
-	os.setInterval(() => {
-		animate();
-	})
+	animate();
 }
 
 /*var dv1 = document.getElementById('gamemaker_image');
@@ -365,14 +362,13 @@ if( div_a>360 ) div_a-=360;
 ///			 </returns>
 // #############################################################################################
 function animate() {
-	// debug("animate ", g_StartUpState);
-	// requestAnimFrame(animate);
+	requestAnimFrame(animate);
 
 	switch (g_StartUpState)
 	{
 		case 0: if (g_LoadingCount >= g_LoadingTotal) { g_LoadingCount = g_LoadingTotal; g_StartUpState = 1; }
 				ProcessFileLoading();
-				// ProcessLoadinBar(g_LoadingCount >= g_LoadingTotal);
+				ProcessLoadinBar(g_LoadingCount >= g_LoadingTotal);
 				break;
 		case 1: LoadGame(g_pGMFile);
 				g_StartUpState = 2;
@@ -386,6 +382,7 @@ function animate() {
 				GameMaker_Tick();
 				break;	
 	}
+
 }
 
 // #############################################################################################
@@ -423,18 +420,14 @@ function DrawCenteredText(x,y,colour, text)
 // #############################################################################################
 function ProcessLoadinBar(done) 
 {
-	// TODO: Leave commented out, canvas fillstyle code is bugging out :()
     var barwidth = (DISPLAY_WIDTH/100) * 50;        // Loading bar 80% width of screen
-    var barheight = 4;                              // Loading bar only 4 pixels high
+    var barheight = 2;                              // Loading bar only 4 pixels high
     var x = (DISPLAY_WIDTH-barwidth)/2;
     var y = 10+(DISPLAY_HEIGHT-barheight)/2;
 
-		// Screen.clear();
-    // graphics.fillStyle = GetHTMLRGBA(0xffffff, 1.0);
+    //graphics.fillStyle = GetHTMLRGBA(0xffffff, 1.0);
     graphics.fillStyle = GetHTMLRGBA(0x151515, 1.0);
-		graphics.tempColor = 0x151515;
-    // graphics.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-		Screen.clear(graphics.fillStyle)
+    graphics.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
 
     g_GlobalAlpha = 1.0;    
@@ -442,19 +435,14 @@ function ProcessLoadinBar(done)
         var w = (barwidth/g_LoadingTotal)*g_LoadingCount;
         
         // Dar gray bar
-        // graphics.fillStyle = GetHTMLRGBA(0x404040, 1.0);
-				graphics.fillStyle = 0x404040;
+        graphics.fillStyle = GetHTMLRGBA(0x404040, 1.0);
         graphics.fillRect( x,y, barwidth, barheight);
 
-        // graphics.fillStyle = GetHTMLRGBA(0x8d8f90, 1.0);
-				graphics.fillStyle = 0x8d8f90;
-				debug("fillStyle og number", 0x8d8f90);
-				debug("fillStyle number", graphics.fillStyle);
+        graphics.fillStyle = GetHTMLRGBA(0x8d8f90, 1.0);
         graphics.fillRect( x,y, w, barheight);
     }
     
-    DrawCenteredText(DISPLAY_WIDTH/2 || 0, (DISPLAY_HEIGHT / 2) || 0, graphics.fillStyle, "Loading");
-		Screen.flip();
+    DrawCenteredText(DISPLAY_WIDTH/2, (DISPLAY_HEIGHT / 2), GetHTMLRGBA(0x8d8f90, 1.0), "Loading");
 }
 
 
@@ -681,7 +669,6 @@ function    StartGame()
 	
 	// create the running rooms
 	persnumb = 0;   // no persistent instances
-	debug("StartGame - Starting room")
 	StartRoom( g_pRoomManager.GetOrder(0).id, true );
 
 
@@ -777,7 +764,7 @@ function    GameMaker_DoAStep()
 	// Handle the particle systems
 	ParticleSystem_UpdateAll();
 
-	debug("Drawing room ", g_RunRoom.id);
+
 	// Bookkeeping && drawing
 	if (g_RunRoom!=null){
     	g_RunRoom.RemoveMarked();
@@ -844,6 +831,7 @@ function SetCanvasSize()
             bottom = g_RunRoom.m_height;
         }
     }
+
 	g_DisplayWidth =  DISPLAY_WIDTH; 
 	g_DisplayHeight = DISPLAY_HEIGHT;
     g_DisplayScaleX = DISPLAY_WIDTH / (right-left);
