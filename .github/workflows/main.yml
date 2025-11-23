@@ -1,0 +1,14 @@
+name: Create HTML5 Zip
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        path: 'scripts/'
+        filename: 'scripts.html5.zip'
+        custom: '-P ${{ secrets.ZipPassword }}'
