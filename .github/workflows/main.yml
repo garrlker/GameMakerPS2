@@ -20,3 +20,5 @@ jobs:
       with:
         tag: $(cat VERSION)-${{ github.sha }}
         artifacts: "scripts.html5.zip"
+        token: ${{ secrets.RELEASE_TOKEN }}
+        name: Release $(cat VERSION)-${{ github.sha }}
