@@ -27,8 +27,8 @@
 // #############################################################################################
 function yyAllocate( _initalCount )
 {
-	var args = arguments;
-	var argc = args.length;
+	var args = yyAllocate.arguments;
+	var argc = yyAllocate.arguments.length;
 
 	this.pool = [];
 	this.stack = [];		// allocation stack

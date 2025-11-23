@@ -62,12 +62,8 @@ function    DisplayHeight(){ return g_DisplayHeight; }
 // #############################################################################################
 function Graphics_AddCanvasFunctions(_graphics)
 {
-	debug("Graphics_AddCanvasFunctions");
 	if( !_graphics ) return;
-
-	_graphics._clip = () => debug("yyGraphics._clip CALLED")
-	_graphics._rect = () => debug("yyGraphics._rect CALLED")
-
+	
 	_graphics._transform = _graphics.transform;
 	_graphics._setTransform = _graphics.setTransform;
 	_graphics._save = _graphics.save;
@@ -86,8 +82,8 @@ function Graphics_AddCanvasFunctions(_graphics)
 	_graphics._getImageData = _graphics.getImageData;
 	_graphics._createImageData = _graphics.createImageData;
 	_graphics._putImageData = _graphics.putImageData;
-	// _graphics._clip = _graphics.clip;
-	// _graphics._rect = _graphics.rect;
+	_graphics._clip = _graphics.clip;
+	_graphics._rect = _graphics.rect;
 	/*_graphics._ = _graphics.;
 	_graphics._ = _graphics.;
 	_graphics._ = _graphics.;
@@ -309,29 +305,21 @@ function Graphics_SetTransform_RELEASE()
 // #############################################################################################
 function Graphics_ClearScreen_RELEASE(_col)
 {
-	debug("Graphics_ClearScreen_RELEASE", _col);
-		// We can cheat here a bit
-    // graphics._save();
+    graphics._save();
 
-    // var trans = [];
-    // trans[0] = 1;
-    // trans[1] = 0;
-    // trans[2] = 0;
-    // trans[3] = 1;
-    // trans[4] = 0;
-    // trans[5] = 0;
-    // graphics._setTransform(trans[0], trans[1], trans[2], trans[3], trans[4], trans[5]);
+    var trans = [];
+    trans[0] = 1;
+    trans[1] = 0;
+    trans[2] = 0;
+    trans[3] = 1;
+    trans[4] = 0;
+    trans[5] = 0;
+    graphics._setTransform(trans[0], trans[1], trans[2], trans[3], trans[4], trans[5]);
 
-    // graphics.fillStyle = GetHTMLRGB(_col|0xff000000);
-		// graphics._fillRect(g_clipx, g_clipy, g_clipw, g_cliph);
-		// graphics.fillStyle = 0xf00;
-		// let fillStyle = graphics.fillStyle;
-		// console.log("fillStyle", fillStyle);
-		// graphics.fillStyle = (_col);
-		Screen.clear(_col);
-		// graphics.fillStyle = fillStyle;
+    graphics.fillStyle = GetHTMLRGB(_col|0xff000000);
+	graphics._fillRect(g_clipx, g_clipy, g_clipw, g_cliph);
         
-    // graphics._restore();
+    graphics._restore();
 }
 
 // #############################################################################################
@@ -414,10 +402,10 @@ function Graphics_SetViewArea_RELEASE(_worldx, _worldy, _worldw, _worldh)
 function    Graphics_AddTexture( _name )
 {
 	var i = g_Textures.length;
-	var texture = new Image(_name);
+	var texture = new Image();
 	texture.src = _name;
-	g_Textures[i] = texture;
-	return i;
+    g_Textures[i] = texture;
+    return i;
 }
 
 // #############################################################################################
@@ -768,47 +756,34 @@ function Graphics_PushTransform_RELEASE( _x,_y, _xs,_ys, _angle )
 // #############################################################################################
 function Graphics_TextureDraw_RELEASE(_pTPE, _xorig, _yorig, _x, _y, _xsc, _ysc, _rot, _col, _alpha)
 {
-	debug("Graphics_TextureDraw_RELEASE")
-	// if (!_pTPE.texture.complete) return;
+	if (!_pTPE.texture.complete) return;
 	if ( (abs(_xsc) <= 0.0001) || (abs(_ysc) <= 0.0001) || (_alpha<=0) ) return;
 
     _col = _col & 0xffffff;
 
-		// TODO: Was at my wits end over colors not working, let's not leave this in here leaking memory forever
-		const textureColor = Color.new(
-			_col & 0xFF,
-			(_col >> 8) & 0xFF,
-			(_col >> 16) & 0xFF,
-			255 * _alpha
-		);
-
     var ox = -(_xorig-_pTPE.XOffset);
     var oy = -(_yorig-_pTPE.YOffset);
 
-    // No caching here, let athena handle it
-
     // If coloured, then cache a "colourised" version
     graphics.globalAlpha = _alpha;
-    // if (_col != g_CacheWhite)
-    // {
-    // 	var cached_image = Graphics_CacheBlock(_pTPE, _col);
+    if (_col != g_CacheWhite)
+    {
+    	var cached_image = Graphics_CacheBlock(_pTPE, _col);
 
-    // 	if (cached_image != null)
-    // 	{
-    // 		if (Math.abs(_rot) < 0.001 && _ysc == 1 && _xsc == 1)
-    // 		{
-    // 			graphics._drawImage(cached_image, 0, 0, _pTPE.w, _pTPE.h, (_x + (ox * _xsc)), (_y + (oy * _ysc)), (_pTPE.CropWidth * _xsc), (_pTPE.CropHeight * _ysc));
-    // 		} else
-    // 		{
-    // 			Graphics_PushTransform(_x, _y, _xsc, _ysc, -_rot);
-    // 			graphics._drawImage(cached_image, 0, 0, _pTPE.w, _pTPE.h, ox, oy, _pTPE.CropWidth, _pTPE.CropHeight);
-    // 			Graphics_SetTransform();
-    // 		}
-    // 	}
-    // } else
-    // {
-		let tempCol = _pTPE.texture.color;
-		_pTPE.texture.color = textureColor;
+    	if (cached_image != null)
+    	{
+    		if (Math.abs(_rot) < 0.001 && _ysc == 1 && _xsc == 1)
+    		{
+    			graphics._drawImage(cached_image, 0, 0, _pTPE.w, _pTPE.h, (_x + (ox * _xsc)), (_y + (oy * _ysc)), (_pTPE.CropWidth * _xsc), (_pTPE.CropHeight * _ysc));
+    		} else
+    		{
+    			Graphics_PushTransform(_x, _y, _xsc, _ysc, -_rot);
+    			graphics._drawImage(cached_image, 0, 0, _pTPE.w, _pTPE.h, ox, oy, _pTPE.CropWidth, _pTPE.CropHeight);
+    			Graphics_SetTransform();
+    		}
+    	}
+    } else
+    {
     	if (Math.abs(_rot) < 0.001 && _ysc == 1 && _xsc == 1)
     	{
     		// If we don't have an angle, draw normally
@@ -817,13 +792,10 @@ function Graphics_TextureDraw_RELEASE(_pTPE, _xorig, _yorig, _x, _y, _xsc, _ysc,
     	else
     	{
     		Graphics_PushTransform(_x, _y, _xsc, _ysc, -_rot);
-				_pTPE.texture.angle = _rot;
     		graphics._drawImage(_pTPE.texture, _pTPE.x, _pTPE.y, _pTPE.w, _pTPE.h, ox, oy, _pTPE.CropWidth, _pTPE.CropHeight);
-				_pTPE.texture.angle = 0;
-				Graphics_SetTransform();
+    		Graphics_SetTransform();
     	}
-		_pTPE.texture.color = tempCol;
-    // }
+    }
 }
 	    
 function    Graphics_TextureDraw_DEBUG( _pTPE, _xorig, _yorig, _x, _y, _xsc, _ysc, _rot, _col, _alpha)

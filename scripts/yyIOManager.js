@@ -52,9 +52,6 @@ var g_CurrentInputEvents = [];
 
 var g_LastVirtualKeys = 0;
 
-const pad = Pads.get(0)
-pad.setEventHandler();
-
 //document.body.onkeydown=function(evt){evt=evt?evt:window.event;console.log(evt)};
 //document.body.onkeyup=function(evt){evt=evt?evt:window.event;console.log(evt)};
 
@@ -1075,12 +1072,6 @@ function    IO_StartStep()
 // #############################################################################################
 function HandleKeyboard()
 {
-
-    // TODO: Implement full gamepad, keyboard, and mous input support
-    g_KeyDown[39] = pad.pressed(Pads.RIGHT);
-    g_KeyDown[37] = pad.pressed(Pads.LEFT);
-    g_KeyPressed[32] = pad.justPressed(Pads.CROSS);
-
     g_pIOManager.HandleKeyDown();
     g_pIOManager.HandleKeyPressed();
     g_pIOManager.HandleKeyReleased();

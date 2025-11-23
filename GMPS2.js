@@ -62,7 +62,7 @@ let ee_info = System.getCPUInfo();
 let free_mem = `RAM: ${Math.floor(System.getMemoryStats().used / 1048576)}MB / ${Math.floor(ee_info.RAMSize / 1048576)}MB`;
 
 // Loads a script, outputs debug info to screen and console
-const loadScript = (script) => {
+globalThis.loadScript = (script) => {
   // Print to console for PCSX2 debugging
   free_mem = `RAM: ${Math.floor(System.getMemoryStats().used / 1048576)}MB / ${Math.floor(ee_info.RAMSize / 1048576)}MB`;
   debug(`loadingScript: ${script} | Current Free RAM: ${free_mem}`);
@@ -89,8 +89,11 @@ globalThis.document.write = (scriptTag) => {
 // globalThis.g_GameMakerHTML5Dir overrides the g_RootDir variable in the engine
 std.evalScript(`globalThis.g_GameMakerHTML5Dir = "platformer/html5game/"`)
 
-// Runner.js is the entry point for the engine
+// Runner.js is the entry point for the original engine
 loadScript("scripts/runner.js")
+
+// Loads the ps2 engine patches
+loadScript("scripts/ps2/index.js");
 
 debug("ENGINE Loading complete")
 

@@ -264,7 +264,6 @@ function LoadExtensions(_GameFile)
 // #############################################################################################
 function LoadGame_PreLoadAssets(_GameFile) 
 {
-	debug("LoadGame_PreLoadAssets ", os.getcwd());
     if( _GameFile.Name ) document.title = _GameFile.Name;
 
     g_LoadingAssets = [];
@@ -275,12 +274,12 @@ function LoadGame_PreLoadAssets(_GameFile)
 	for (index = 0; index < _GameFile.Textures.length; index++)
 	{
 		g_LoadingTotal++;
-		debug("Loading: " +  g_RootDir + _GameFile.Textures[index]);
+		debug("Loading: " + g_RootDir + _GameFile.Textures[index]);
 		var index = Graphics_AddTexture(g_RootDir + _GameFile.Textures[index]);
 		g_Textures[index].onload = LoadGame_ImageLoad;
 		g_Textures[index].onerror = LoadGame_ImageLoad_Error;
 		g_Textures[index].URL = _GameFile.Textures[index];
-		g_LoadingAssets[g_Textures[index].URL] = g_Textures[index];
+		g_LoadingAssets[g_Textures[index].URL] = g_Textures[t];
 	}
 
 
@@ -295,6 +294,7 @@ function LoadGame_PreLoadAssets(_GameFile)
 		g_Textures[t].URL = "particles/IDR_GIF" + i + ".png";
 		g_LoadingAssets[g_Textures[t].URL] = g_Textures[t];
 	}
+
 
 	// Now load WAV files (not mp3/ogg)
 	for (index = 0; index < _GameFile.Sounds.length; index++)
@@ -323,16 +323,28 @@ function LoadGame_PreLoadAssets(_GameFile)
 ///          </summary>
 // #############################################################################################
 function ProcessFileLoading() {
+
 	for (var i in g_LoadingAssets)
 	{
 		var pAsset = g_LoadingAssets[i];
-		if((pAsset && pAsset?.ready()))
+		if (pAsset)
 		{
-			// pAsset.completed = false;
-			g_LoadingCount++;
-			g_LoadingAssets[i] = null;
-			// ClearEventListeners(pAsset);
-			// debug("SoundError: " + pAsset.URL + "   NetworkState: " + GetNetworkStateText(pAsset.networkState));
+			if((pAsset.networkState) && (pAsset.readyState ))
+			{
+				// readyState =4 means we have enough data to play. Might get this BEFORE the loaded callback...
+				if ( (pAsset.networkState == 1 || pAsset.networkState== 3 ) && (pAsset.DoingLoading) && (pAsset.readyState!=4) )
+				{
+					// have we actually tried to load?
+					if(pAsset.completed!=true )
+					{
+						pAsset.completed = false;
+						g_LoadingCount++;
+						g_LoadingAssets[i] = null;
+						ClearEventListeners(pAsset);
+						debug("SoundError: " + pAsset.URL + "   NetworkState: " + GetNetworkStateText(pAsset.networkState));
+					}
+				}
+			}
 		}
 	}
 }

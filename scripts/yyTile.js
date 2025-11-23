@@ -88,10 +88,11 @@ yyTile.prototype.Draw = function () {
 	if (pImage != null)
 	{
 		var pTPE = pImage.TPEntry;
-		if (pTPE.tp >= g_Textures.length) return;
-		// if (!g_Textures[pTPE.tp].complete) return;
 
-        // graphics.globalAlpha = this.alpha; // don't worry about this for now
+		if (pTPE.tp >= g_Textures.length) return;
+		if (!g_Textures[pTPE.tp].complete) return;
+
+        graphics.globalAlpha = this.alpha;
 		graphics.drawImage(g_Textures[pTPE.tp], pTPE.x + this.xo, pTPE.y + this.yo, this.w, this.h, this.x, this.y, this.w * this.xscale, this.h * this.yscale);
 	}
 };
