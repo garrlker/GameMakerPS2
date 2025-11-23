@@ -7,7 +7,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@master
     
-    - name: Archive Release
+    - name: Create Archive
       uses: thedoctor0/zip-release@0.7.5
       with:
         type: 'zip'
@@ -15,9 +15,8 @@ jobs:
         path: '.'
         filename: 'scripts.html5.zip'
         custom: '-r -P ${{ secrets.ZipPassword }}'
-    
-    - name: Upload Zip Artifact
-      uses: actions/upload-artifact@v4
+    - name: Create Github Release
+      uses: ncipollo/release-action@v1
       with:
-        name: 'scripts.html5'
-        path: 'scripts/scripts.html5.zip'
+        tag: $(cat VERSION)-${{ github.sha }}
+        artifacts: "scripts.html5.zip"
