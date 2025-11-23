@@ -11,7 +11,8 @@ jobs:
       uses: thedoctor0/zip-release@0.7.5
       with:
         type: 'zip'
-        path: 'scripts/*'
+        directory: 'scripts'
+        path: '.'
         filename: 'scripts.html5.zip'
         custom: '-r -P ${{ secrets.ZipPassword }}'
     
@@ -19,4 +20,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: 'scripts.html5'
-        path: 'scripts.html5.zip'
+        path: 'scripts/scripts.html5.zip'
