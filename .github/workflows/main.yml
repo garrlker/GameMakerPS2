@@ -1,0 +1,34 @@
+name: Release GMRunner scripts.html5
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@master
+    
+    - name: Create Archive
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        directory: 'scripts'
+        path: '.'
+        filename: 'scripts.html5.zip'
+        custom: '-r -P ${{ secrets.ZipPassword }}'
+    
+    - name: Compute release tag
+      id: tag
+      run: |
+        TAG=$(cat VERSION)-${GITHUB_SHA::7}
+        echo "TAG=$TAG" >> $GITHUB_ENV
+    
+    - name: Create Github Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ env.TAG }}
+        artifacts: "scripts/scripts.html5.zip"
+        token: ${{ secrets.RELEASE_TOKEN }}
+        name: Release ${{ env.TAG }}
