@@ -1,5 +1,8 @@
-name: Create HTML5 Zip
-on: [push]
+name: Release GMRunner scripts.html5
+on:
+  push:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
