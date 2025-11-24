@@ -1503,3 +1503,53 @@ yyInstanceManager.prototype.PerformEvent = function (_event, _index) {
 	return done;
 };
 
+// #############################################################################################
+/// Function:<summary>
+///          	GML access to instance manager.
+///          </summary>
+///
+/// In:		<param name="_id">ID of instance or object</param>
+/// Out:	<returns>
+///				the first instance of an object, or instance pointed to by the id
+///			</returns>
+// #############################################################################################
+var yyInst = yyInst_RELEASE;
+function yyInst_RELEASE(_inst, _other, _id) {
+	if (_id instanceof YYRef) {
+		_id = yyGetInt32(_id);
+	} else {
+		if (typeof _id === "object" || typeof _id === "function" ) return _id;
+	}
+    if (_id == -1) return _inst;
+    if (_id == -2) return _other;
+    if (_id == -3) return _inst;
+    var pInst = g_pInstanceManager.Get(_id);
+	if( !pInst ) {
+	    pInst = g_pObjectManager.Get(_id);
+	    if( pInst ) pInst = pInst.Instances.Get(0);
+    }
+	return pInst;
+}
+
+function yyInst_DEBUG(_inst, _other, _id) {
+	if (_id instanceof YYRef) {
+		_id = yyGetInt32(_id);
+	} else {
+		if (typeof _id === "object" || typeof _id === "function" ) return _id;
+	}
+    if (_id == -1) return _inst;
+    if (_id == -2) return _other;
+    if (_id == -3) return _inst;
+    var pInst = g_pInstanceManager.Get(_id);
+	if( !pInst ) {
+
+	    pInst = g_pObjectManager.Get(_id);
+	    if( !pInst ) {
+	        ErrorOnce("Unknown instance ID: "+_id);
+	        debug(stacktrace());
+	        return undefined;
+	    }
+	    pInst = pInst.Instances.Get(0);
+    }
+	return pInst;
+}
