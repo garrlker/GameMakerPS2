@@ -742,6 +742,7 @@ function    GameMaker_DoAStep()
 	if (New_Room != -1) return;
 
 	HandleKeyboard();
+	if(updatePad) updatePad();
 	UpdateActiveLists();
 	if (New_Room != -1) return;
 
