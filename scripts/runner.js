@@ -65,7 +65,7 @@ document.write('<script type="text/javascript" src="scripts/functions/Function_F
 document.write('<script type="text/javascript" src="scripts/functions/Function_Timeline.js"></script>');
 document.write('<script type="text/javascript" src="scripts/functions/Function_Action.js"></script>');
 document.write('<script type="text/javascript" src="scripts/functions/Function_Window.js"></script>');
-document.write('<script type="text/javascript" src="scripts/web/gamepad.js"></script>');
+document.write('<script type="text/javascript" src="scripts/functions/Function_Gamepad.js"></script>');
 document.write('<script type="text/javascript" src="scripts/LoadGame.js"></script>');
 document.write('<script type="text/javascript" src="scripts/_GameMaker.js"></script>');
 
