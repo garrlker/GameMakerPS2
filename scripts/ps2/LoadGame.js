@@ -133,7 +133,7 @@ function LoadGame_SoundLoad(_event) {
 		g_LoadingAssets[this.URL] = null;
 		g_LoadingCount++;
 	}
-	ClearEventListeners(this);
+	// ClearEventListeners(this);
 	debug("SoundLoaded: " + this.URL);
 }
 function LoadGame_SoundLoad_Error(_event) {
@@ -145,7 +145,7 @@ function LoadGame_SoundLoad_Error(_event) {
 		g_LoadingAssets[this.URL] = null;
 		g_LoadingCount++;
 	}
-	ClearEventListeners(this);
+	// ClearEventListeners(this);
 }
 
 function LoadGame_SoundLoad_Loading(_event) {
@@ -302,7 +302,7 @@ function LoadGame_PreLoadAssets(_GameFile)
 		if(  _GameFile.Sounds[index]!=null){
 	        g_LoadingTotal++;
 	        debug("Loading: " + g_RootDir + _GameFile.Sounds[index].origName);
-	        var id = SoundManager_AddRawSound(g_RootDir + _GameFile.Sounds[index].origName, _GameFile.Sounds[index].pName, _GameFile.Sounds[index].extension, LoadGame_SoundLoad, LoadGame_SoundLoad_Error);
+	        var id = SoundManager_AddRawSound(g_RootDir + _GameFile.Sounds[index].origName, _GameFile.Sounds[index].pName, _GameFile.Sounds[index].extension, LoadGame_SoundLoad, LoadGame_SoundLoad_Error, _GameFile.Sounds[index]);
 	        if(id>=0 && g_LoadingAssets[g_RawSounds[id].URL])
 	        {
 	        	g_LoadingAssets[g_RawSounds[id].URL] = g_RawSounds[id];

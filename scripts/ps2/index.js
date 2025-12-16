@@ -24,5 +24,7 @@ loadScript("scripts/ps2/yyIOManager.js");
 loadScript("scripts/ps2/yyRoom.js");
 loadScript("scripts/ps2/yyTile.js");
 loadScript("scripts/ps2/yyGraphics.js");
+loadScript("scripts/ps2/yySound.js");
 loadScript("scripts/ps2/functions/Function_Debug.js");
+loadScript("scripts/ps2/functions/Function_Gamepad.js");
 loadScript("scripts/ps2/_GameMaker.js");

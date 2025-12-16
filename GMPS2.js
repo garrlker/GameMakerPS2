@@ -87,7 +87,7 @@ globalThis.document.write = (scriptTag) => {
 }
 
 // globalThis.g_GameMakerHTML5Dir overrides the g_RootDir variable in the engine
-std.evalScript(`globalThis.g_GameMakerHTML5Dir = "platformer/html5game/"`)
+std.evalScript(`globalThis.g_GameMakerHTML5Dir = "examples/gamepad/html5game/"`)
 
 // Runner.js is the entry point for the original engine
 loadScript("scripts/runner.js")
@@ -98,7 +98,7 @@ loadScript("scripts/ps2/index.js");
 debug("ENGINE Loading complete")
 
 // Loads game script
-loadScript("platformer/html5game/platformer.js");
+loadScript("examples/gamepad/html5game/InputDemo.js");
 
 // NOTE: By default the html5 game.js files are bugged for athena
 // We need to update a couple arrays ([]s) to be `new Array()`, like fonts and tiles

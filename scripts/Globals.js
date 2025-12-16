@@ -3,7 +3,7 @@
 // Global
 // **********************************************************************************************
 var Pi = 3.14159265,
-	CACHE_SINGLE_IMAGE = true,
+	CACHE_SINGLE_IMAGE = false,
 	DEBUG_MODE = false,
 	AUDIO_ON = true,
 
