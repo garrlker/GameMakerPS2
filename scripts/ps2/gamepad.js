@@ -1,19 +1,22 @@
-// AthenaEnv Pads module implementation for PS2 gamepad support
-// Replaces Web Gamepad API with native PS2 pad support
+// Only one pad is supported at the moment
+// Waiting on a PR in AthenaEnv that adds better multi-pad support
+const pad1 = Pads.get(0);
 
-// Get pad at port 0 (first controller)
-// Note: If pad is already initialized elsewhere (e.g., yyIOManager.js),
-// Pads.get(0) should return the same instance
-const gamepadPad = Pads.get(0);
+/**
+ * This idle waits a game until a 2nd pad is connected. 
+ * Will enable multipad support once this PR is merged: https://github.com/DanielSant0s/AthenaEnv/pull/129
+ */
+// const pad2 = Pads.get(1); 
+
+function getPad(_joystick) {
+    return pad1;
+    // if (joystick === 1) return pad1;
+    // if (joystick === 2) return pad2;
+}
 
 // Map GameMaker button numbers to PS2 pad button constants
-// Button numbers are 1-indexed in GameMaker (button parameter)
+// Button numbers are 1-indexed in GameMaker
 function getPadButton(button) {
-    // Standard PS2 controller button mapping
-    // Button 1 = CROSS, Button 2 = CIRCLE, Button 3 = SQUARE, Button 4 = TRIANGLE
-    // Button 5 = L1, Button 6 = R1, Button 7 = L2, Button 8 = R2
-    // Button 9 = SELECT, Button 10 = START, Button 11 = L3, Button 12 = R3
-    // Button 13 = UP, Button 14 = DOWN, Button 15 = LEFT, Button 16 = RIGHT
     switch(button) {
         case 1: return Pads.CROSS;
         case 2: return Pads.CIRCLE;
@@ -35,48 +38,47 @@ function getPadButton(button) {
     }
 }
 
-// Update pad state - should be called each frame
-// This replaces the polling mechanism from Web Gamepad API
-// Note: pad.update() should be called in the main game loop (e.g., in GameMaker_DoAStep)
+// Update pad state - called each frame
 function updatePad() {
-    gamepadPad.update();
+    pad1.update();
+    //pad2.update();
 }
 
-// GameMaker joystick functions using AthenaEnv Pads module
-function joystick_check_button(_joystick, button) {
+// GameMaker engine joystick functions implemented using AthenaEnv's Pads module
+function joystick_check_button(joystick, button) {
     const padButton = getPadButton(button);
     if (padButton === null) return 0;
-    return gamepadPad.pressed(padButton) ? 1 : 0;
+    return getPad(joystick).pressed(padButton) ? 1 : 0; 
 }
 
 // L2 trigger (Z axis) - returns pressure value 0-255
-function joystick_zpos() {
-    return Pads.getPressure(0, Pads.L2);
+function joystick_zpos(joystick) {
+    return Pads.getPressure(joystick - 1, Pads.L2);
 }
 
 // Left stick X axis
-function joystick_xpos(_joystick) {
+function joystick_xpos(joystick) {
     // Normalize from -127..128 to -1..1
-    return gamepadPad.lx / 128;
+    return getPad(joystick).lx / 128;
 }
 
 // Left stick Y axis
-function joystick_ypos(_joystick) {
-    return gamepadPad.ly / 128;
+function joystick_ypos(joystick) {
+    return getPad(joystick).ly / 128;
 }
 
 // Right stick Y axis (R axis)
-function joystick_rpos(_joystick) {
-    return gamepadPad.ry / 128;
+function joystick_rpos(joystick) {
+    return getPad(joystick).ry / 128;
 }
 
 // Right stick X axis (U axis)
-function joystick_upos(_joystick) {
-    return gamepadPad.rx / 128;
+function joystick_upos(joystick) {
+    return getPad(joystick).rx / 128;
 }
 
 // R2 trigger (V axis) - returns pressure value 0-255
-function joystick_vpos(_joystick) {
-    return Pads.getPressure(0, Pads.R2);
+function joystick_vpos(joystick) {
+    return Pads.getPressure(joystick - 1, Pads.R2);
 }
 
