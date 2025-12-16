@@ -765,11 +765,9 @@ function    InitAboyneGlobals()
     // g_canPlayOgg = !!pAudioTest.canPlayType && "" != pAudioTest.canPlayType('audio/ogg; codecs="vorbis"');
     // pAudioTest = null;
 
-		g_canPlayMp3 = false;
-		g_canPlayOgg = false;
-
-    if (g_canPlayMp3) debug("Browser CAN play MP3");
-    if (g_canPlayOgg) debug("Browser CAN play OGG");
+	g_canPlayMp3 = false;
+	g_canPlayOgg = false;
+	g_canPlayAdpcm = true;
 
     g_RoomID = 0;
     g_RunRoom = null;
