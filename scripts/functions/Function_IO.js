@@ -296,7 +296,7 @@ function keyboard_check_released(key)
 // #############################################################################################
 function keyboard_check_direct(key) 
 {
-    return keyboard_check_pressed;
+    return keyboard_check(key);
 }
 
 // #############################################################################################

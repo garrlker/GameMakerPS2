@@ -271,7 +271,7 @@ function GameMaker_Init()
     //document.body.appendChild( canvas );
 	// document.body.oncontextmenu = function () { return false; };  
     
-    CreateDebugConsole();
+    // CreateDebugConsole();
     //hideshow(document.getElementById('debug_console'));
     
 
@@ -1007,8 +1007,9 @@ function GameMaker_Tick()
 
 	var framesworth = 1000000.0 / g_RunRoom.GetSpeed();
 	
+	// Hack? Commenting out code because it was artificially slowing down the engine in light games
 	// If more than a frame, then wait some more...
-	if (slp > 14000) return;
+	// if (slp > 14000) return;
 	//Timing_Wait(slp);
 
 	//window.clearInterval(g_SleepTimerHandle);
